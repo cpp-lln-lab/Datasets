@@ -2,3 +2,7 @@
 	path = cpp-lln-lab_raw
 	url = https://github.com/cpp-lln-lab/cpp-lln-lab_raw.git
 	datalad-url = https://github.com/cpp-lln-lab/cpp-lln-lab_raw.git
+[submodule "cpp-lln-lab_derivatives"]
+	path = cpp-lln-lab_derivatives
+	url = https://github.com/cpp-lln-lab/cpp-lln-lab_derivatives.git
+	datalad-url = https://github.com/cpp-lln-lab/cpp-lln-lab_derivatives.git
