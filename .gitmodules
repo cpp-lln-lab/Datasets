@@ -1,0 +1,4 @@
+[submodule "cpp-lln-lab_raw"]
+	path = cpp-lln-lab_raw
+	url = https://github.com/cpp-lln-lab/cpp-lln-lab_raw.git
+	datalad-url = https://github.com/cpp-lln-lab/cpp-lln-lab_raw.git
