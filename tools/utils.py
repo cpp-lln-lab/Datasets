@@ -1,4 +1,3 @@
-
 """Utility functions for tools."""
 
 from typing import Any
@@ -23,6 +22,7 @@ def new_dataset(name: str) -> dict[str, str | int | bool | list[str]]:
         "mriqc": "n/a",
     }
 
+
 def init_dataset() -> dict[str, list[Any]]:
     return {
         "name": [],
@@ -39,7 +39,8 @@ def init_dataset() -> dict[str, list[Any]]:
         "freesurfer": [],  # link to freesurfer dataset if exists
         "mriqc": [],  # link to mriqc dataset if exists
     }
-    
+
+
 def is_known_bids_modality(modality: str) -> bool:
     KNOWN_MODALITIES = [
         "anat",
@@ -57,12 +58,14 @@ def is_known_bids_modality(modality: str) -> bool:
         "motion",
     ]
     return modality in KNOWN_MODALITIES
-    
+
+
 def list_modalities(bids_pth: Path, sessions: list[str]) -> list[str]:
     pattern = "sub-*/ses-*/*" if sessions else "sub-*/*"
     sub_dirs = [v.name for v in bids_pth.glob(pattern) if v.is_dir()]
     modalities = [v for v in set(sub_dirs) if is_known_bids_modality(v)]
     return list(set(modalities))
+
 
 def list_data_files(bids_pth: Path, sessions: list[str]) -> list[str]:
     """Return the list of files in BIDS raw."""
@@ -70,23 +73,31 @@ def list_data_files(bids_pth: Path, sessions: list[str]) -> list[str]:
     files = [v.name for v in bids_pth.glob(pattern) if "task-" in v.name]
     return files
 
+
 def list_tasks(bids_pth: Path, sessions: list[str]) -> list[str]:
     files = list_data_files(bids_pth, sessions)
     tasks = [f.split("task-")[1].split("_")[0] for f in files]
     tasks = list(set(tasks))
     return tasks
 
+
 def get_nb_subjects(pth: Path) -> int:
     return len(list_participants_in_dataset(pth))
+
 
 def has_participant_tsv(pth: Path) -> tuple[bool, bool, str | list[str]]:
     tsv_status = bool((pth / "participants.tsv").exists())
     json_status = bool((pth / "participants.json").exists())
     if tsv_status:
-        return tsv_status, json_status, list_participants_tsv_columns(pth / "participants.tsv")
+        return (
+            tsv_status,
+            json_status,
+            list_participants_tsv_columns(pth / "participants.tsv"),
+        )
     else:
         return tsv_status, json_status, "n/a"
-    
+
+
 def list_participants_tsv_columns(participant_tsv: Path) -> list[str]:
     """Return the list of columns in participants.tsv."""
     try:
@@ -95,6 +106,7 @@ def list_participants_tsv_columns(participant_tsv: Path) -> list[str]:
     except pd.errors.ParserError:
         warn(f"Could not parse: {participant_tsv}")
         return ["cannot be parsed"]
+
 
 def list_datasets_in_dir(
     datasets: dict[str, list[Any]], path: Path, debug: bool
@@ -147,16 +159,24 @@ def list_datasets_in_dir(
 
     return datasets
 
+
 def list_sessions(dataset_pth: Path) -> list[str]:
-    sessions = [v.name.replace("ses-", "") for v in dataset_pth.glob("sub-*/ses-*") if v.is_dir()]
+    sessions = [
+        v.name.replace("ses-", "")
+        for v in dataset_pth.glob("sub-*/ses-*")
+        if v.is_dir()
+    ]
     return sorted(list(set(sessions)))
+
 
 def check_task(
     tasks: list[str], modalities: list[str], sessions: list[str], dataset_pth: Path
 ) -> None:
     """Check if tasks are present in dataset with modalities that can have tasks."""
     if (
-        any(mod in modalities for mod in ["func", "eeg", "ieeg", "meg", "beh", "motion"])
+        any(
+            mod in modalities for mod in ["func", "eeg", "ieeg", "meg", "beh", "motion"]
+        )
         and not tasks
     ):
         warn(
@@ -164,6 +184,9 @@ def check_task(
             f"with modalities {modalities} "
             f"and files {list_data_files(dataset_pth, sessions)}"
         )
-        
+
+
 def list_participants_in_dataset(data_pth: Path) -> list[str]:
-    return [x.name for x in data_pth.iterdir() if x.is_dir() and x.name.startswith("sub-")]
+    return [
+        x.name for x in data_pth.iterdir() if x.is_dir() and x.name.startswith("sub-")
+    ]
