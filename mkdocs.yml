@@ -3,9 +3,9 @@ site_name: CPP Lab datasets
 repo_url: https://github.com/cpp-lln-lab/Datasets.git
 
 nav:
-- CPP Lab raw data:
-  - Home: README.md
-  - Contributing: CONTRIBUTING.md
+- Home: README.md
+- Contributing: CONTRIBUTING.md
+- Raw datasets table: datasets_raw.md
 
 theme:
   name: material
