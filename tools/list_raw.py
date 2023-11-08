@@ -33,15 +33,16 @@ output_file = Path(__file__).parent / "datasets_raw.tsv"
 
 datasets_df.to_csv(output_file, index=False, sep="\t")
 
-mk_file = Path(__file__).parent.parent / "src/datasets_raw.md"
+mk_file = Path(__file__).parent.parent / "src" / "datasets_raw.md"
 
-datasets_df.drop(
+datasets_df = datasets_df.drop(
     columns=[
         "has_participant_tsv",
         "has_participant_json",
         "has_phenotype_dir",
         "participant_columns",
     ],
-    inplace=True,
 )
-datasets_df.to_markdown(mk_file, index=False, mode="a")
+
+with open(mk_file, "w") as f:
+    datasets_df.to_markdown(f, index=False, mode="a")
