@@ -70,8 +70,7 @@ def list_modalities(bids_pth: Path, sessions: list[str]) -> list[str]:
 def list_data_files(bids_pth: Path, sessions: list[str]) -> list[str]:
     """Return the list of files in BIDS raw."""
     pattern = "sub-*/ses-*/*/*" if sessions else "sub-*/*/*"
-    files = [v.name for v in bids_pth.glob(pattern) if "task-" in v.name]
-    return files
+    return [v.name for v in bids_pth.glob(pattern) if "task-" in v.name]
 
 
 def list_tasks(bids_pth: Path, sessions: list[str]) -> list[str]:
